@@ -11,9 +11,10 @@ const CONTENT_PATH = path.join(process.cwd(), "content/problems");
 export function getProblemContent(
   subject: string,
   year: string,
+  examType: string,
   number: string,
 ) {
-  const filePath = path.join(CONTENT_PATH, subject, year, `${number}.mdx`);
+  const filePath = path.join(CONTENT_PATH, subject, year, examType, `${number}.mdx`);
 
   if (!fs.existsSync(filePath)) {
     return null;
@@ -30,7 +31,7 @@ export function getProblemContent(
 
 // 모든 문제 경로 가져오기 (SSG용)
 export function getAllProblemPaths() {
-  const paths: { subject: string; year: string; number: string }[] = [];
+  const paths: { subject: string; year: string; examType: string; number: string }[] = [];
 
   const subjects = fs.readdirSync(CONTENT_PATH);
 
@@ -43,13 +44,20 @@ export function getAllProblemPaths() {
       const yearPath = path.join(subjectPath, year);
       if (!fs.statSync(yearPath).isDirectory()) continue;
 
-      const files = fs.readdirSync(yearPath).filter((f) => f.endsWith(".mdx"));
-      for (const file of files) {
-        paths.push({
-          subject,
-          year,
-          number: file.replace(".mdx", ""),
-        });
+      const examTypes = fs.readdirSync(yearPath);
+      for (const examType of examTypes) {
+        const examTypePath = path.join(yearPath, examType);
+        if (!fs.statSync(examTypePath).isDirectory()) continue;
+
+        const files = fs.readdirSync(examTypePath).filter((f) => f.endsWith(".mdx"));
+        for (const file of files) {
+          paths.push({
+            subject,
+            year,
+            examType,
+            number: file.replace(".mdx", ""),
+          });
+        }
       }
     }
   }
@@ -57,9 +65,9 @@ export function getAllProblemPaths() {
   return paths;
 }
 
-// 특정 과목/연도의 모든 문제 메타데이터
-export function getProblemsBySubjectAndYear(subject: string, year: string) {
-  const dirPath = path.join(CONTENT_PATH, subject, year);
+// 특정 과목/연도/시험의 모든 문제 메타데이터
+export function getProblemsBySubjectYearAndExam(subject: string, year: string, examType: string) {
+  const dirPath = path.join(CONTENT_PATH, subject, year, examType);
 
   if (!fs.existsSync(dirPath)) {
     return [];
