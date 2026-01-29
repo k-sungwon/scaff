@@ -1,8 +1,25 @@
 @import "tailwindcss";
+@import "katex/dist/katex.min.css";
 
+/* 🦋 Scaff 브랜드 컬러 - 수능 시험지 + 나비 */
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #2D3748;
+
+  /* 수능 시험지 베이지 */
+  --paper-light: #FFFEF7;
+  --paper-base: #FAF8F3;
+  --paper-dark: #F5F3ED;
+
+  /* 세련된 그레이 */
+  --gray-text: #2D3748;
+  --gray-light: #4A5568;
+  --gray-lighter: #718096;
+
+  /* 나비 노란색 (포인트) */
+  --butterfly-yellow: #F6E05E;
+  --butterfly-dark: #ECC94B;
+  --butterfly-light: #FAF089;
 }
 
 @theme inline {
@@ -10,6 +27,15 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* 커스텀 컬러 */
+  --color-paper-50: var(--paper-light);
+  --color-paper-100: var(--paper-base);
+  --color-paper-200: var(--paper-dark);
+
+  --color-butterfly-400: var(--butterfly-light);
+  --color-butterfly-500: var(--butterfly-yellow);
+  --color-butterfly-600: var(--butterfly-dark);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,4 +49,35 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* MDX 콘텐츠 스타일 */
+.mdx-content h2 {
+  @apply text-2xl font-bold mt-8 mb-4 text-gray-900;
+}
+
+.mdx-content h3 {
+  @apply text-xl font-semibold mt-6 mb-3 text-gray-800;
+}
+
+.mdx-content p {
+  @apply my-4 leading-relaxed;
+}
+
+.mdx-content ul,
+.mdx-content ol {
+  @apply my-4 ml-6;
+}
+
+.mdx-content li {
+  @apply my-2;
+}
+
+.mdx-content strong {
+  @apply font-semibold text-gray-900;
+}
+
+/* 수식 블록 */
+.katex-display {
+  @apply my-6 overflow-x-auto;
 }
