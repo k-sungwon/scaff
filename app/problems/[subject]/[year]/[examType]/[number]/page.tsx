@@ -1,14 +1,11 @@
-// app/problems/[subject]/[year]/[examType]/[number]/page.tsx
-
 import { notFound } from "next/navigation";
-import { MDXRemote } from "next-mdx-remote/rsc";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
-import { getProblemContent } from "@/lib/mdx";
+import { getProblemData } from "@/lib/problem";
 import { EXAM_TYPE_LABELS } from "@/lib/constants";
 import type { ExamType } from "@/lib/types";
+import { SolutionProvider } from "@/contexts/SolutionContext";
+import { HintController } from "@/components/solution/HintController";
+import { ClueSection } from "@/components/solution/ClueSection";
 
-// 🎯 [핵심 패턴] Next.js 15 Dynamic Route with TypeScript
 type Props = {
   params: Promise<{
     subject: string;
@@ -18,19 +15,17 @@ type Props = {
   }>;
 };
 
-// 🎯 [핵심 패턴] Async Server Component - DB/파일 접근 가능
 export default async function ProblemPage({ params }: Props) {
-  // Next.js 15에서는 params가 Promise
   const { subject, year, examType, number } = await params;
 
-  // 🎯 [Vercel Rule: server-cache-react] React.cache()로 중복 제거는 mdx.ts에 적용됨
-  const problemData = getProblemContent(subject, year, examType, number);
+  // JSON + MDX 구조 로딩
+  const problemData = getProblemData(subject, year, examType, number);
 
   if (!problemData) {
     notFound();
   }
 
-  const { meta, content } = problemData;
+  const { meta, clues } = problemData;
 
   return (
     <div className="min-h-screen bg-paper-50">
@@ -40,9 +35,21 @@ export default async function ProblemPage({ params }: Props) {
           <div className="flex items-center gap-3 text-sm text-gray-light mb-2">
             <span>{meta.subject === "math" ? "수학" : meta.subject}</span>
             <span>•</span>
-            <span>{meta.year}학년도 {EXAM_TYPE_LABELS[meta.examType as ExamType]}</span>
+            <span>
+              {meta.year}학년도 {EXAM_TYPE_LABELS[meta.examType as ExamType]}
+            </span>
             <span>•</span>
             <span>{meta.number}번</span>
+            {meta.subSubject && (
+              <>
+                <span>•</span>
+                <span className="text-butterfly-600 font-medium">
+                  {meta.subSubject === "calculus" && "미적분"}
+                  {meta.subSubject === "statistics" && "확률과 통계"}
+                  {meta.subSubject === "geometry" && "기하"}
+                </span>
+              </>
+            )}
           </div>
           <h1 className="text-3xl font-bold text-gray-text">{meta.title}</h1>
           <div className="flex gap-4 mt-4 text-sm">
@@ -57,44 +64,74 @@ export default async function ProblemPage({ params }: Props) {
       </div>
 
       {/* 메인 콘텐츠 */}
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        <article className="bg-white rounded-lg shadow-sm border border-gray-100 p-8 mdx-content">
-          {/* 🎯 [핵심 패턴] MDX 렌더링 with KaTeX */}
-          <MDXRemote
-            source={content}
-            options={{
-              mdxOptions: {
-                remarkPlugins: [remarkMath],
-                // @ts-ignore - rehypeKatex 타입 이슈
-                rehypePlugins: [rehypeKatex],
-              },
-            }}
-          />
-        </article>
+      <SolutionProvider problemId={meta.id} totalClues={clues.length}>
+        <div className="max-w-4xl mx-auto px-4 py-12">
+          {/* 힌트 컨트롤러 */}
+          <HintController />
 
-        {/* 문제 정보 사이드바 */}
-        <div className="mt-8 p-6 bg-paper-100 rounded-lg">
-          <h3 className="font-semibold text-gray-text mb-3">이 문제의 핵심 개념</h3>
-          <div className="flex flex-wrap gap-2">
-            {meta.concepts.map((concept) => (
-              <span
-                key={concept}
-                className="px-3 py-1 bg-white text-gray-text text-sm rounded border border-gray-200"
-              >
-                {concept}
-              </span>
-            ))}
-          </div>
+          {/* 문제 (임시 - 나중에 problem.mdx 추가) */}
+          <section className="mb-12">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">📌 문제</h2>
+            <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-8">
+              <p className="text-gray-600">
+                문제 이미지 또는 텍스트가 여기에 표시됩니다.
+              </p>
+            </div>
+          </section>
+
+          {/* 태그 */}
+          <section className="mb-8">
+            <h3 className="text-lg font-semibold text-gray-text mb-3">
+              🏷️ 태그
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {meta.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="px-3 py-1 bg-paper-100 text-gray-text text-sm rounded-lg border border-gray-200"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </section>
+
+          {/* 단서 섹션 */}
+          <ClueSection clues={clues} />
+
+          {/* 개념 정보 */}
+          <section className="mt-12 p-6 bg-paper-100 rounded-lg">
+            <h3 className="font-semibold text-gray-text mb-3">
+              💡 이 문제의 핵심 개념
+            </h3>
+            <div className="space-y-2">
+              {meta.concepts.map((concept) => (
+                <div
+                  key={concept.id}
+                  className="flex items-start gap-3 p-3 bg-white rounded-lg border border-gray-200"
+                >
+                  <span className="text-butterfly-600 font-medium">•</span>
+                  <div>
+                    <div className="font-medium text-gray-text">
+                      {concept.name}
+                    </div>
+                    <div className="text-xs text-gray-light mt-1">
+                      {concept.category}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
         </div>
-      </div>
+      </SolutionProvider>
     </div>
   );
 }
 
-// 🎯 [핵심 패턴] generateMetadata - SEO 최적화
 export async function generateMetadata({ params }: Props) {
   const { subject, year, examType, number } = await params;
-  const problemData = getProblemContent(subject, year, examType, number);
+  const problemData = getProblemData(subject, year, examType, number);
 
   if (!problemData) {
     return {
@@ -103,8 +140,17 @@ export async function generateMetadata({ params }: Props) {
   }
 
   const examLabel = EXAM_TYPE_LABELS[examType as ExamType];
+  const subSubjectLabel =
+    problemData.meta.subSubject === "calculus"
+      ? "미적분"
+      : problemData.meta.subSubject === "statistics"
+        ? "확률과 통계"
+        : problemData.meta.subSubject === "geometry"
+          ? "기하"
+          : "";
+
   return {
-    title: `${problemData.meta.title} | ${year}학년도 ${examLabel} ${subject} ${number}번 | Scaff`,
+    title: `${problemData.meta.title} | ${year}학년도 ${examLabel} ${subject} ${number}번 ${subSubjectLabel} | Scaff`,
     description: `${year}학년도 ${examLabel} ${subject} ${number}번 문제 해설 - 사고 회로 중심 해설`,
   };
 }

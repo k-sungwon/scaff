@@ -1,0 +1,178 @@
+{
+  "id": "2025-math-calculus-regular-30",
+  "subject": "math",
+  "subSubject": "calculus",
+  "year": 2025,
+  "examType": "regular",
+  "number": 30,
+  "title": "30번 - 역함수와 교점 개수",
+  "difficulty": "killer",
+  "estimatedTime": 25,
+
+  "tags": [
+    "역함수",
+    "미적분",
+    "증가함수",
+    "단조성",
+    "구간별함수",
+    "로그함수",
+    "지수함수",
+    "교점개수",
+    "접선조건",
+    "중근",
+    "불연속",
+    "사잇값정리",
+    "성장률비교"
+  ],
+
+  "concepts": [
+    {
+      "id": "inverse-function-monotonicity",
+      "name": "역함수의 단조성",
+      "category": "미적분-역함수"
+    },
+    {
+      "id": "absolute-value-sign-determination",
+      "name": "절댓값의 부호 결정",
+      "category": "미적분-함수"
+    },
+    {
+      "id": "intersection-count-analysis",
+      "name": "교점 개수 분석",
+      "category": "미적분-그래프"
+    },
+    {
+      "id": "tangent-condition",
+      "name": "접선 조건 (중근)",
+      "category": "미적분-미분"
+    },
+    {
+      "id": "interval-decomposition",
+      "name": "구간 분해",
+      "category": "미적분-그래프"
+    }
+  ],
+
+  "clues": [
+    {
+      "id": "clue-1",
+      "type": "approach",
+      "title": "증가함수의 역함수도 증가함수",
+      "keywords": ["역함수", "증가함수", "연속", "F(0)=0"],
+      "content": "clues/1.mdx"
+    },
+    {
+      "id": "clue-2",
+      "type": "technique",
+      "title": "중앙 구간 절댓값 처리",
+      "keywords": ["절댓값", "다항식", "중앙구간"],
+      "content": "clues/2.mdx"
+    },
+    {
+      "id": "clue-3",
+      "type": "pattern",
+      "title": "바깥 구간 지수 → 로그 변환",
+      "keywords": ["지수함수", "로그함수", "역함수"],
+      "content": "clues/3.mdx"
+    },
+    {
+      "id": "clue-4",
+      "type": "technique",
+      "title": "경계값 미리 계산",
+      "keywords": ["경계값", "F(1)", "F(-1)", "교점판단"],
+      "content": "clues/4.mdx"
+    },
+    {
+      "id": "clue-5",
+      "type": "trigger",
+      "title": "불연속 = 접선(중근) 조건",
+      "keywords": ["접선", "중근", "불연속점"],
+      "content": "clues/5.mdx"
+    }
+  ],
+
+  "steps": [
+    {
+      "id": "step-1",
+      "type": "setup",
+      "title": "역함수 F(x)를 부호까지 확정하기",
+      "concepts": ["inverse-function-monotonicity", "absolute-value-sign-determination"],
+      "content": "steps/1.mdx"
+    },
+    {
+      "id": "step-2",
+      "type": "transformation",
+      "title": "교점 분석에 필요한 만큼만 f 뒤집기",
+      "concepts": ["inverse-function-monotonicity"],
+      "content": "steps/2.mdx"
+    },
+    {
+      "id": "step-3",
+      "type": "analysis",
+      "title": "교점 개수 g(m) 분석 - 구간별로",
+      "concepts": ["intersection-count-analysis", "interval-decomposition"],
+      "content": "steps/3.mdx"
+    },
+    {
+      "id": "step-3-1",
+      "type": "analysis",
+      "title": "오른쪽 구간 x>2 분석",
+      "concepts": ["intersection-count-analysis"],
+      "content": "steps/3-1.mdx"
+    },
+    {
+      "id": "step-3-2",
+      "type": "analysis",
+      "title": "왼쪽 구간 x<-2 분석 (접선 조건)",
+      "concepts": ["intersection-count-analysis", "tangent-condition"],
+      "content": "steps/3-2.mdx"
+    },
+    {
+      "id": "step-3-3",
+      "type": "analysis",
+      "title": "중앙 구간 -2≤x≤2 분석",
+      "concepts": ["intersection-count-analysis"],
+      "content": "steps/3-3.mdx"
+    },
+    {
+      "id": "step-3-4",
+      "type": "analysis",
+      "title": "전체 g(m) 합치기",
+      "concepts": ["intersection-count-analysis"],
+      "content": "steps/3-4.mdx"
+    },
+    {
+      "id": "step-4",
+      "type": "calculation",
+      "title": "요구값 계산",
+      "concepts": [],
+      "content": "steps/4.mdx"
+    }
+  ],
+
+  "commonMistakes": [
+    {
+      "id": "mistake-1",
+      "title": "증가함수인데 절댓값에서 막힘",
+      "severity": "high",
+      "content": "mistakes/1.mdx"
+    },
+    {
+      "id": "mistake-2",
+      "title": "m=1/3에서 불연속이라고 착각",
+      "severity": "high",
+      "content": "mistakes/2.mdx"
+    },
+    {
+      "id": "mistake-3",
+      "title": "b를 직접 계산하려고 함",
+      "severity": "medium",
+      "content": "mistakes/3.mdx"
+    }
+  ],
+
+  "relatedProblems": [
+    "2024-math-calculus-regular-30",
+    "2023-math-calculus-september-29"
+  ]
+}

@@ -81,3 +81,74 @@ body {
 .katex-display {
   @apply my-6 overflow-x-auto;
 }
+
+/* 애니메이션 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* 단서 카운터 증가 애니메이션 */
+@keyframes countUp {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+    color: #ECC94B;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-countUp {
+  animation: countUp 0.5s ease-out;
+}
+
+/* Prose 스타일 (MDX 렌더링용) */
+.prose {
+  @apply text-gray-text;
+}
+
+.prose strong {
+  @apply font-semibold text-gray-900;
+}
+
+.prose p {
+  @apply my-3 leading-relaxed;
+}
+
+.prose ul {
+  @apply my-4 ml-6 list-disc;
+}
+
+.prose ol {
+  @apply my-4 ml-6 list-decimal;
+}
+
+.prose li {
+  @apply my-2;
+}
+
+.prose hr {
+  @apply my-6 border-gray-200;
+}
+
+.prose code {
+  @apply px-1.5 py-0.5 bg-gray-100 rounded text-sm font-mono;
+}
+
+.prose pre {
+  @apply p-4 bg-gray-100 rounded-lg overflow-x-auto;
+}
