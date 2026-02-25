@@ -19,20 +19,20 @@ export function Header() {
                 priority
               />
             </div>
-            <span className="text-xl font-bold text-gray-text">Scaff</span>
+            <span className="text-xl font-bold text-gray-800">Scaff</span>
           </Link>
 
           {/* 중앙 네비게이션 */}
           <nav className="hidden md:flex items-center gap-8">
             <Link
               href={ROUTES.home}
-              className="text-sm font-medium text-gray-text hover:text-gray-light transition-colors"
+              className="text-sm font-medium text-gray-800 hover:text-gray-600 transition-colors"
             >
               문제 보기
             </Link>
             <Link
               href={ROUTES.problems}
-              className="text-sm font-medium text-gray-lighter hover:text-gray-text transition-colors"
+              className="text-sm font-medium text-gray-600er hover:text-gray-800 transition-colors"
             >
               내 학습
             </Link>
@@ -43,7 +43,7 @@ export function Header() {
             {/* 검색 아이콘 (MVP에서는 disabled) */}
             <button
               disabled
-              className="p-2 text-gray-lighter hover:text-gray-text transition-colors"
+              className="p-2 text-gray-600er hover:text-gray-800 transition-colors"
               aria-label="검색"
             >
               <svg
@@ -65,7 +65,7 @@ export function Header() {
             {/* 로그인 버튼 */}
             <Link
               href={ROUTES.login}
-              className="text-sm font-medium text-gray-text hover:text-gray-light transition-colors"
+              className="text-sm font-medium text-gray-800 hover:text-gray-600 transition-colors"
             >
               로그인
             </Link>
@@ -73,7 +73,7 @@ export function Header() {
             {/* 회원가입 버튼 */}
             <Link
               href={ROUTES.signup}
-              className="px-4 py-2 bg-gray-text text-yellow-500 text-sm font-medium rounded-lg hover:bg-gray-900 transition-colors shadow-sm"
+              className="px-4 py-2 bg-gray-800 text-yellow-500 text-sm font-medium rounded-lg hover:bg-gray-900 transition-colors shadow-sm"
             >
               시작하기
             </Link>

@@ -8,7 +8,7 @@ export function HintController() {
 
   return (
     <div className="sticky top-20 bg-white border-2 border-butterfly-100 rounded-lg p-6 shadow-sm mb-8 z-10">
-      <p className="text-sm text-gray-text mb-4 font-medium">
+      <p className="text-sm text-gray-800 mb-4 font-medium">
         💡 힌트가 필요하신가요?
       </p>
 

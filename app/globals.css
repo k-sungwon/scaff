@@ -28,14 +28,24 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  /* 커스텀 컬러 */
+  /* 커스텀 컬러 - paper */
   --color-paper-50: var(--paper-light);
   --color-paper-100: var(--paper-base);
   --color-paper-200: var(--paper-dark);
 
+  /* 커스텀 컬러 - butterfly */
   --color-butterfly-400: var(--butterfly-light);
   --color-butterfly-500: var(--butterfly-yellow);
   --color-butterfly-600: var(--butterfly-dark);
+  --color-butterfly-50: #fef9e7;
+  --color-butterfly-100: #fef3c7;
+  --color-butterfly-700: #b7791f;
+  --color-butterfly-800: #92400e;
+
+  /* 커스텀 컬러 - gray */
+  --color-gray-text: var(--gray-text);
+  --color-gray-light: var(--gray-light);
+  --color-gray-lighter: var(--gray-lighter);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -118,7 +128,7 @@ body {
 
 /* Prose 스타일 (MDX 렌더링용) */
 .prose {
-  @apply text-gray-text;
+  color: var(--gray-text);
 }
 
 .prose strong {

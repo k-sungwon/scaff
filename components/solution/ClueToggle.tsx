@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MDXRemote, type MDXRemoteSerializeResult } from "next-mdx-remote";
 import { serialize } from "next-mdx-remote/serialize";
 import remarkMath from "remark-math";
@@ -11,19 +11,18 @@ interface ClueToggleProps {
   clueNumber: number;
   title: string;
   content: string;
-  totalClues: number;
 }
 
 export function ClueToggle({
   clueNumber,
   title,
   content,
-  totalClues,
 }: ClueToggleProps) {
   const { revealMode, cluesRevealed, revealNextClue } = useSolution();
   const [mdxSource, setMdxSource] = useState<MDXRemoteSerializeResult | null>(
     null,
   );
+  const [isCompiling, setIsCompiling] = useState(false);
 
   // 이 단서가 공개되었는가?
   const isRevealed = revealMode === "all" || clueNumber <= cluesRevealed;
@@ -32,34 +31,40 @@ export function ClueToggle({
   const isNext = revealMode === "step" && clueNumber === cluesRevealed + 1;
 
   // 잠겨있는가?
-  const isLocked =
-    revealMode === "step" && clueNumber > cluesRevealed + 1;
+  const isLocked = revealMode === "step" && clueNumber > cluesRevealed + 1;
 
-  const handleReveal = async () => {
-    if (isLocked) return;
-
-    if (isNext) {
-      revealNextClue();
-    }
-
-    // MDX 컴파일 (처음 열 때만)
-    if (!mdxSource && content) {
-      const compiled = await serialize(content, {
+  // isRevealed 상태가 변경되면 MDX 컴파일
+  useEffect(() => {
+    if (isRevealed && !mdxSource && !isCompiling && content) {
+      setIsCompiling(true);
+      serialize(content, {
         mdxOptions: {
           remarkPlugins: [remarkMath],
           rehypePlugins: [rehypeKatex as any],
         },
-      });
-      setMdxSource(compiled);
+      })
+        .then((compiled) => {
+          setMdxSource(compiled);
+          setIsCompiling(false);
+        })
+        .catch((error) => {
+          console.error("MDX compilation error:", error);
+          setIsCompiling(false);
+        });
+    }
+  }, [isRevealed, mdxSource, isCompiling, content]);
+
+  const handleReveal = () => {
+    if (isLocked) return;
+    if (isNext) {
+      revealNextClue();
     }
   };
 
   return (
     <div
       className={`my-4 border-l-4 pl-6 transition-all ${
-        isLocked
-          ? "border-gray-300 opacity-50"
-          : "border-butterfly-500"
+        isLocked ? "border-gray-300 opacity-50" : "border-butterfly-500"
       }`}
     >
       <button
@@ -83,9 +88,13 @@ export function ClueToggle({
         </span>
       </button>
 
-      {isRevealed && mdxSource && (
+      {isRevealed && (
         <div className="mt-4 pl-11 prose prose-sm max-w-none animate-fadeIn">
-          <MDXRemote {...mdxSource} />
+          {isCompiling ? (
+            <p className="text-gray-500 text-sm">로딩 중...</p>
+          ) : mdxSource ? (
+            <MDXRemote {...mdxSource} />
+          ) : null}
         </div>
       )}
 

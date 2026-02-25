@@ -32,7 +32,7 @@ export default async function ProblemPage({ params }: Props) {
       {/* 헤더 영역 */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center gap-3 text-sm text-gray-light mb-2">
+          <div className="flex items-center gap-3 text-sm text-gray-600 mb-2">
             <span>{meta.subject === "math" ? "수학" : meta.subject}</span>
             <span>•</span>
             <span>
@@ -51,12 +51,12 @@ export default async function ProblemPage({ params }: Props) {
               </>
             )}
           </div>
-          <h1 className="text-3xl font-bold text-gray-text">{meta.title}</h1>
+          <h1 className="text-3xl font-bold text-gray-800">{meta.title}</h1>
           <div className="flex gap-4 mt-4 text-sm">
-            <span className="px-3 py-1 bg-butterfly-400 text-gray-text rounded-full font-medium">
+            <span className="px-3 py-1 bg-butterfly-400 text-gray-800 rounded-full font-medium">
               {meta.difficulty === "killer" ? "킬러" : meta.difficulty}
             </span>
-            <span className="text-gray-light">
+            <span className="text-gray-600">
               예상 소요시간: {meta.estimatedTime}분
             </span>
           </div>
@@ -81,14 +81,14 @@ export default async function ProblemPage({ params }: Props) {
 
           {/* 태그 */}
           <section className="mb-8">
-            <h3 className="text-lg font-semibold text-gray-text mb-3">
+            <h3 className="text-lg font-semibold text-gray-800 mb-3">
               🏷️ 태그
             </h3>
             <div className="flex flex-wrap gap-2">
               {meta.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="px-3 py-1 bg-paper-100 text-gray-text text-sm rounded-lg border border-gray-200"
+                  className="px-3 py-1 bg-paper-100 text-gray-800 text-sm rounded-lg border border-gray-200"
                 >
                   {tag}
                 </span>
@@ -101,7 +101,7 @@ export default async function ProblemPage({ params }: Props) {
 
           {/* 개념 정보 */}
           <section className="mt-12 p-6 bg-paper-100 rounded-lg">
-            <h3 className="font-semibold text-gray-text mb-3">
+            <h3 className="font-semibold text-gray-800 mb-3">
               💡 이 문제의 핵심 개념
             </h3>
             <div className="space-y-2">
@@ -112,10 +112,10 @@ export default async function ProblemPage({ params }: Props) {
                 >
                   <span className="text-butterfly-600 font-medium">•</span>
                   <div>
-                    <div className="font-medium text-gray-text">
+                    <div className="font-medium text-gray-800">
                       {concept.name}
                     </div>
-                    <div className="text-xs text-gray-light mt-1">
+                    <div className="text-xs text-gray-600 mt-1">
                       {concept.category}
                     </div>
                   </div>

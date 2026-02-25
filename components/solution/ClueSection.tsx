@@ -26,7 +26,6 @@ export function ClueSection({ clues }: ClueSectionProps) {
           clueNumber={index + 1}
           title={clue.title}
           content={clue.content}
-          totalClues={clues.length}
         />
       ))}
     </div>
