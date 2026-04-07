@@ -130,7 +130,7 @@ export { ClueBadge, ClueBadgeSmall, ClueBadgeIconOnly } from "./ui/clue-badge";
 import * as ClueAPI from "./api/get-clues";
 import * as ClueConstants from "./model/clue.constants";
 
-export const Clue = {
+export const ClueNamespace = {
   API: ClueAPI,
   CONSTANTS: ClueConstants,
 } as const;

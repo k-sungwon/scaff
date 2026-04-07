@@ -246,11 +246,7 @@ export function safeParseProblemMeta(data: unknown): ProblemMetaFromSchema | nul
   try {
     return ProblemMetaSchema.parse(data);
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      console.error("[Schema] Problem 메타데이터 검증 실패:", error.errors);
-    } else {
-      console.error("[Schema] Problem 파싱 에러:", error);
-    }
+    console.error("[Schema] Problem 파싱 에러:", error);
     return null;
   }
 }

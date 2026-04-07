@@ -9,10 +9,10 @@ import { compileMDXBatch } from "@/shared/lib/mdx/compile";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     // 1. 문제 메타데이터 로드
     const meta = await problemRepository.getProblemMeta(id);
